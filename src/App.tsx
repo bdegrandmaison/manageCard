@@ -1,7 +1,9 @@
+import ManageBrokerCard from './components/ManageBrokerCard';
+
 function App() {
   return (
     <>
-      <div></div>
+      <ManageBrokerCard />
     </>
   );
 }
