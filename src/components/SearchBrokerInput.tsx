@@ -2,7 +2,12 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBrokerInput = () => {
+interface SearchBrokerInputProps {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
+}
+
+const SearchBrokerInput = ({ onChange, inputRef }: SearchBrokerInputProps) => {
   return (
     <TextField
       label="Name"
@@ -19,6 +24,8 @@ const SearchBrokerInput = () => {
           </InputAdornment>
         ),
       }}
+      onChange={onChange}
+      inputRef={inputRef}
     />
   );
 };

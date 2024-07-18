@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardHeader } from '@mui/material';
@@ -15,6 +16,8 @@ const subheaderTypographyStyleProps = {
 };
 
 const ManageBrokerCard = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   return (
     <Card sx={{ width: 820 }}>
       <CardHeader
@@ -24,7 +27,12 @@ const ManageBrokerCard = () => {
         subheaderTypographyProps={subheaderTypographyStyleProps}
       />
       <CardContent>
-        <SearchBrokerInput />
+        <SearchBrokerInput
+          inputRef={inputRef}
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
+        />
       </CardContent>
     </Card>
   );
