@@ -1,11 +1,7 @@
 import ManageBrokerCard from './components/ManageBrokerCard';
 
 function App() {
-  return (
-    <>
-      <ManageBrokerCard />
-    </>
-  );
+  return <ManageBrokerCard />;
 }
 
 export default App;
