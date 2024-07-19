@@ -28,9 +28,9 @@ export const handlers = [
       }
 
       const regex = createRegex(query);
-      const filteredBrokers = brokers.filter((broker) =>
-        regex.test(broker.name)
-      );
+      const filteredBrokers = brokers
+        .filter((broker) => regex.test(broker.name))
+        .slice(0, 5);
 
       await delay();
 
