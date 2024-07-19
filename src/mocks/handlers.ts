@@ -1,16 +1,15 @@
 import { http, delay, HttpResponse } from 'msw';
 import { brokers } from './brokers';
+import { Broker, NewBrokerInfo } from '../types';
 
 type BrokerQueryParams = {
   q: string;
 };
 
-type BrokerResponseBody = {
-  id: number;
-  name: string;
-  address: string;
-  country: string;
-}[];
+type BrokerResponseBody = Broker[];
+
+type AddBrokerRequestBody = NewBrokerInfo;
+type AddBrokerResponseBody = Broker;
 
 const createRegex = (query: string) => {
   const escapedQuery = query.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -36,6 +35,18 @@ export const handlers = [
       await delay();
 
       return HttpResponse.json(filteredBrokers);
+    }
+  ),
+  http.post<AddBrokerRequestBody, AddBrokerResponseBody>(
+    '/api/brokers',
+    async ({ request }) => {
+      const body: AddBrokerRequestBody = await request.json();
+      const newBrokerInfo: Broker = {
+        id: brokers.length + 1,
+        ...body,
+      };
+      brokers.push(newBrokerInfo);
+      return HttpResponse.json(newBrokerInfo);
     }
   ),
 ];

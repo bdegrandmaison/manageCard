@@ -1,4 +1,11 @@
-import { List, ListItem, ListItemText, Divider } from '@mui/material';
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  CircularProgress,
+  Typography,
+} from '@mui/material';
 import { styled } from '@mui/system';
 
 import { Broker } from '../../types';
@@ -6,6 +13,7 @@ import { Broker } from '../../types';
 interface BrokerListProps {
   brokers: Broker[];
   isLoading: boolean;
+  isFetching: boolean;
   error: Error | null;
   setSelectedBroker: React.Dispatch<React.SetStateAction<Broker | null>>;
 }
@@ -13,33 +21,36 @@ interface BrokerListProps {
 const BrokerList = ({
   brokers,
   isLoading,
+  isFetching,
   error,
   setSelectedBroker,
 }: BrokerListProps) => (
   <div>
-    {isLoading && <div>Loading...</div>}
-    {error && <div>Error: {error.message}</div>}
-    <List>
-      {brokers.length === 0 && !isLoading && (
-        <StyledListItem>
-          <ListItemText secondary="No broker found" />
-        </StyledListItem>
-      )}
-      {brokers.map((broker) => {
-        const brokerInfo = `${broker.name}, ${broker.address}, ${broker.postalCode}, ${broker.country}`;
-        return (
-          <div key={broker.id} onClick={() => setSelectedBroker(broker)}>
-            <StyledListItem>
-              <ListItemText
-                secondary={brokerInfo}
-                secondaryTypographyProps={ListSecondaryTypographyStyleProps}
-              />
-            </StyledListItem>
-            <Divider sx={{ width: '100%' }} />
-          </div>
-        );
-      })}
-    </List>
+    {isLoading && <CircularProgress size={20} />}
+    {error && <Typography color="error">Error: {error.message}</Typography>}
+    {!isLoading && !isFetching && !error && brokers.length === 0 && (
+      <StyledListItem>
+        <ListItemText secondary="No broker found" />
+      </StyledListItem>
+    )}
+    {!isLoading && !error && brokers.length > 0 && (
+      <List>
+        {brokers.map((broker) => {
+          const brokerInfo = `${broker.name}, ${broker.address}, ${broker.city}, ${broker.country}`;
+          return (
+            <div key={broker.id} onClick={() => setSelectedBroker(broker)}>
+              <StyledListItem>
+                <ListItemText
+                  secondary={brokerInfo}
+                  secondaryTypographyProps={ListSecondaryTypographyStyleProps}
+                />
+              </StyledListItem>
+              <Divider sx={{ width: '100%' }} />
+            </div>
+          );
+        })}
+      </List>
+    )}
   </div>
 );
 
